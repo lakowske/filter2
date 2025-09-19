@@ -15,7 +15,7 @@ def check_github_cli() -> tuple[bool, str]:
     logger.info("Checking GitHub CLI installation status")
 
     try:
-        result = subprocess.run(
+        result = subprocess.run(  # noqa: S603
             ["gh", "--version"],  # noqa: S607
             check=True,
             capture_output=True,
@@ -47,7 +47,7 @@ def gh_clone_repo(repo_url: str, dest_dir: str) -> tuple[bool, str]:
     logger.info(f"Cloning repository from {repo_url} to {dest_dir}")
 
     try:
-        result = subprocess.run(
+        result = subprocess.run(  # noqa: S603
             ["gh", "repo", "clone", repo_url, dest_dir],  # noqa: S607
             check=True,
             capture_output=True,
