@@ -1,0 +1,61 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug CLI - Status Command",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/filter.py",
+            "args": ["status"],
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}",
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}/src"
+            },
+            "justMyCode": true,
+            "stopOnEntry": false
+        },
+        {
+            "name": "Debug CLI - Clone Command",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/filter.py",
+            "args": ["clone", "https://github.com/example/repo.git"],
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}",
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}/src"
+            },
+            "justMyCode": true,
+            "stopOnEntry": false
+        },
+        {
+            "name": "Debug CLI - Help",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/filter.py",
+            "args": ["--help"],
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}",
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}/src"
+            },
+            "justMyCode": true,
+            "stopOnEntry": false
+        },
+        {
+            "name": "Debug CLI - Custom Args",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/filter.py",
+            "args": [],
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}",
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}/src"
+            },
+            "justMyCode": true,
+            "stopOnEntry": false
+        }
+    ]
+}
