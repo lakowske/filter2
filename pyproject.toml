@@ -23,6 +23,7 @@ classifiers = [
 dependencies = [
     "requests",
     "pydantic>=2.0.0",
+    "click>=8.0.0",
 ]
 
 [tool.setuptools.packages.find]
@@ -47,6 +48,9 @@ dev = [
     "mkdocstrings[python]>=0.24.0",  # API documentation
     "uv>=0.4.0",                 # Fast Python package manager
 ]
+
+[project.scripts]
+filter = "filter.cli:cli"
 
 [project.urls]
 Homepage = "https://github.com/lakowske/filter"

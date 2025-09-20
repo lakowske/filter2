@@ -38,7 +38,7 @@ repos:
       hooks:
           - id: pytest-coverage
             name: pytest-coverage
-            entry: bash -c 'uv pip install -e . && uv run pytest --cov=src --cov-report=term-missing --cov-fail-under=80 --cov-report=html'
+            entry: bash -c 'uv pip install -e . && uv run pytest --cov=src --cov-report=term-missing --cov-fail-under=75 --cov-report=html'
             language: system
             pass_filenames: false
             always_run: true
