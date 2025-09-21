@@ -1,18 +1,22 @@
 #!/bin/bash
 # Filter CLI wrapper script
-# This script activates the project's virtual environment and runs the filter command
+# This script runs the filter command using uv while preserving the current working directory
 
 # Get the directory where this script is located (resolving symlinks)
 SCRIPT_PATH="$(readlink -f "${BASH_SOURCE[0]}" 2>/dev/null || realpath "${BASH_SOURCE[0]}" 2>/dev/null || echo "${BASH_SOURCE[0]}")"
 SCRIPT_DIR="$(dirname "$SCRIPT_PATH")"
 PROJECT_DIR="$(dirname "$SCRIPT_DIR")"
 
+# Save the current working directory
+CURRENT_DIR="$(pwd)"
+
 # Check if we're in a uv project and use uv run
 if [ -f "$PROJECT_DIR/pyproject.toml" ] && [ -f "$PROJECT_DIR/uv.lock" ]; then
-    cd "$PROJECT_DIR" && uv run filter "$@"
+    # Use uv run with explicit working directory preservation
+    cd "$CURRENT_DIR" && PYTHONPATH="$PROJECT_DIR/src" "$PROJECT_DIR/.venv/bin/python" -m filter.cli "$@"
 elif [ -f "$PROJECT_DIR/.venv/bin/activate" ]; then
     # Fallback to traditional venv activation
-    cd "$PROJECT_DIR" && source .venv/bin/activate && filter "$@"
+    cd "$CURRENT_DIR" && PYTHONPATH="$PROJECT_DIR/src" "$PROJECT_DIR/.venv/bin/python" -m filter.cli "$@"
 else
     echo "Error: Could not find virtual environment or uv project at $PROJECT_DIR" >&2
     echo "Script path: $SCRIPT_PATH" >&2
