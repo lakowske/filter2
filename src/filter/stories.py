@@ -273,7 +273,7 @@ class StoryManager:
         """
         return f"""# {story_id}: {title}
 
-**Created:** {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S')}
+**Created:** {datetime.now(timezone.utc).isoformat()}
 **Status:** Planning
 
 ## Description
