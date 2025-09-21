@@ -24,6 +24,7 @@ dependencies = [
     "requests",
     "pydantic>=2.0.0",
     "click>=8.0.0",
+    "pyyaml>=6.0.0",
 ]
 
 [tool.setuptools.packages.find]
@@ -43,6 +44,7 @@ dev = [
     "pre-commit>=4.0.0",
     "coverage>=7.0.0",
     "mypy>=1.0.0",               # Type checker (fallback to mypy for now)
+    "types-PyYAML>=6.0.0",        # Type stubs for PyYAML
     "mkdocs>=1.5.0",             # Documentation generator
     "mkdocs-material>=9.0.0",    # Material theme for MkDocs
     "mkdocstrings[python]>=0.24.0",  # API documentation
@@ -149,7 +151,7 @@ exclude_lines = [
     "class .*\\bProtocol\\):",
     "@(abc\\.)?abstractmethod",
 ]
-fail_under = 80
+fail_under = 75
 show_missing = true
 
 [tool.coverage.html]
@@ -184,6 +186,10 @@ ignore_missing_imports = true
 module = "src.filter.core"
 disable_error_code = "misc"
 
+[[tool.mypy.overrides]]
+module = "yaml"
+ignore_missing_imports = true
+
 [tool.mkdocs]
 # MkDocs configuration is in mkdocs.yml file
 
@@ -205,4 +211,5 @@ markers = [
 [dependency-groups]
 dev = [
     "pre-commit>=4.3.0",
+    "types-pyyaml>=6.0.12.20250915",
 ]

@@ -1,7 +1,11 @@
 import logging
+import re
 import shutil
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Optional
+
+import yaml
 
 logger = logging.getLogger(__name__)
 
@@ -17,6 +21,7 @@ class ProjectManager:
         """
         self.project_path = Path(project_path)
         self.filter_dir = self.project_path / ".filter"
+        self.config_path = self.filter_dir / "config.yml"
         self.kanban_dir = self.filter_dir / "kanban"
 
         logger.info(f"Initialized ProjectManager - project_path: {self.project_path}")
@@ -55,6 +60,11 @@ class ProjectManager:
                 stage_dir = self.kanban_dir / stage
                 stage_dir.mkdir(exist_ok=True)
                 logger.debug(f"Created kanban stage directory - stage: {stage}, path: {stage_dir}")
+
+            # Create initial config.yml
+            config_content = self._generate_config_content()
+            self.config_path.write_text(config_content, encoding="utf-8")
+            logger.info(f"Created project config - path: {self.config_path}")
 
             # Create initial README
             readme_content = self._generate_readme_content()
@@ -145,6 +155,40 @@ class ProjectManager:
         except OSError as e:
             logger.error(f"Failed to get project info - error: {e}")
             return None
+
+    def _generate_prefix(self, project_name: str) -> str:
+        """Generate a story prefix from project name.
+
+        Args:
+            project_name: Name of the project
+
+        Returns:
+            str: Generated prefix (e.g., "FILTE" for "filter")
+        """
+        # Remove common suffixes and clean the name
+        clean_name = re.sub(r"[-_\d]+$", "", project_name.lower())
+
+        # Take first 5 characters, or pad if shorter
+        prefix = clean_name[:5].upper() if len(clean_name) >= 5 else clean_name.upper().ljust(5, "X")
+
+        logger.debug(f"Generated prefix - project_name: {project_name}, prefix: {prefix}")
+        return prefix
+
+    def _generate_config_content(self) -> str:
+        """Generate initial config.yml content for the filter project.
+
+        Returns:
+            str: YAML configuration content
+        """
+        config = {
+            "project_name": self.project_path.name,
+            "prefix": self._generate_prefix(self.project_path.name),
+            "last_story_number": 0,
+            "created_at": datetime.now(timezone.utc).isoformat(),
+            "kanban_stages": ["planning", "in-progress", "testing", "pr", "complete"],
+        }
+
+        return str(yaml.safe_dump(config, default_flow_style=False, sort_keys=False))
 
     def _generate_readme_content(self) -> str:
         """Generate README content for the filter project.
